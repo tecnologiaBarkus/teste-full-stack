@@ -14,7 +14,7 @@
 
 ## **Introdução**
 
-Seu desafio será criar uma API responsável por gerenciar templates de mensagens e enviá-las com base em algumas informações recebidas (mais detalhes na seção de [Descrição](#Descri%C3%A7%C3%A3o)). Essa aplicação deverá ser implementada usando necessariamente uma arquitetura serverless (sinta-se à vontade para utilizar a estratégia que preferir para isso, estando ela acoplada ou não a um provedor cloud específico). Será considerado um bônus caso você realize o deploy do que foi desenvolvido em um ambiente cloud (Google Cloud, Amazon AWS, Microsoft Azure, etc).
+Seu desafio será criar uma API responsável por enviar mensagens por email com base em algumas informações recebidas (mais detalhes na seção de [Descrição](#Descri%C3%A7%C3%A3o)). Essa aplicação deverá ser implementada usando necessariamente uma arquitetura serverless (sinta-se à vontade para utilizar a estratégia que preferir para isso, estando ela acoplada ou não a um provedor cloud específico). Será considerado um bônus caso você realize o deploy do que foi desenvolvido em um ambiente cloud (Google Cloud, Amazon AWS, Microsoft Azure, etc).
 
 ## **Descrição**
 
