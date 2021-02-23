@@ -20,7 +20,8 @@ Seu desafio será criar uma API responsável por gerenciar templates de mensagen
 
 Você trabalha na agência responsável por desenvolver o jogo do Pokémon. Sua responsabilidade é desenvolver uma API REST que enviará mensagens sobre pokémons por meio de um e-mail fornecido por você. Durante as etapas abaixo você precisará se comunicar com uma API REST externa que foi desenvolvida pela empresa para coletar dados relativos aos pokémons: https://pokeapi.co/docs/v2
 
-**Requesitos**:
+**Requisitos**:
+
 - O usuário deverá fornecer obrigatoriamente um ou mais emails para serem utilizados como destinatários.
 - O usuário deverá ser capaz de escolher entre dois tipos de envios:
   - Envio imediato (comportamento padrão, caso não fornecido): a mensagem é enviada por meio de um **sistema de filas (queue)** naquele exato momento.
@@ -28,6 +29,8 @@ Você trabalha na agência responsável por desenvolver o jogo do Pokémon. Sua 
 - O usuário deverá escolher um tipo específico de pokémon (e.g: grass, electric, ground, etc.) que deseja utilizar para as mensagens. Essa informação, isto é, o tipo do pokémon, deverá ser utilizada para consumir a API externa (https://pokeapi.co/docs/v2) que fornecerá os dados necessários para popular o template da mensagem a ser enviada, conforme definido no final dessa seção. Como serão muitos pokémons retornados pela API externa, sorteie 5 pokémons aleatórios para utilizar.
 
 **Template:**
+
+```
 Olá Treinador Pokémon,
 
 Aqui estão as informações de 5 pokémons aleatórios do tipo **inserir tipo aqui** que podem ser interessantes para você capturar durante a sua jornada.
@@ -45,6 +48,7 @@ Experiência base: **inserir experiência base aqui**
 Gotta Catch 'Em All!
 
 See ya!
+```
 
 ## **Apresentação**
 
