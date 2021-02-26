@@ -1,22 +1,29 @@
 import { Request, Response } from 'express'
-import  axios  from "axios"
+import { PokemonRepository } from '../repository/PokemonRepository'
+import { Pokemon } from '../model/Pokemon'
 
 
 class ApiController{
     async start(req:Request,res:Response) {
-        const pokemon = "pikachu"
-        const api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-        const ability1=api.data.abilities[0].ability.name
-        const ability2=api.data.abilities[1].ability.name
-        const wight = api.data.weight
+        const{ id }=req.params
 
-        return res.send({ 
-            pokemon,
-            ability1,
-            ability2,
-            wight
-        })
-    
+        try {            
+            const api:Pokemon = await PokemonRepository.find(id)
+            const pokemon : Pokemon = {
+                id: api.id,
+                types: api.types,
+                sprites:api.sprites,
+                name:api.name,
+                weight:api.weight,
+                height:api.height,
+                base_experience:api.base_experience
+            }
+
+            return res.json(pokemon)
+
+        } catch (error) {
+            
+        }
     }
 }
 

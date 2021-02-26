@@ -5,6 +5,6 @@ const router = Router();
 
 const apiController = new ApiController();
 
-router.get("/pokemon",apiController.start)
+router.get("/pokemon/:id",apiController.start)
 
 export { router }

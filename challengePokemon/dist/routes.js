@@ -6,4 +6,4 @@ var ApiController_1 = require("./controller/ApiController");
 var router = express_1.Router();
 exports.router = router;
 var apiController = new ApiController_1.ApiController();
-router.get("/pokemon", apiController.start);
+router.get("/pokemon/:id", apiController.start);
