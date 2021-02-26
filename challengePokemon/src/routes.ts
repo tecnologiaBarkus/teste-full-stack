@@ -1,9 +1,10 @@
 import {Router} from 'express'
+import { ApiController } from './controller/ApiController';
 
 const router = Router();
 
-router.get("/users", (req,res) =>{
-    return res.send("Hello o/")
-})
+const apiController = new ApiController();
+
+router.get("/pokemon",apiController.start)
 
 export { router }
