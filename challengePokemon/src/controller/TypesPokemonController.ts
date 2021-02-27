@@ -3,20 +3,21 @@ import { TypesPokemon } from '../model/TypesPokemon'
 import { TypesPokemonRepository } from '../repository/TypesPokemonRepository'
 import { PokemonRepository } from '../repository/PokemonRepository'
 import { Pokemon } from '../model/Pokemon'
+import SendMailService from '../services/SendMailService'
 
 
 class TypesPokemonController{
 
     async search (req:Request,res:Response){
-        const { type } = req.body
-
+        const { type, emails } = req.body
+        const randomPokemons=[]
         try {            
             const apiType:TypesPokemon = await TypesPokemonRepository.find(type)
             const pokemons:TypesPokemon = {
                 pokemon:apiType.pokemon
             }
 
-            const randomPokemons=[]
+            
             const items = pokemons.pokemon
 
             while(randomPokemons.length<=4){
@@ -39,12 +40,14 @@ class TypesPokemonController{
                 }
             }        
 
-            return res.json(randomPokemons)
+            //return res.json(randomPokemons)
 
         } catch (error) {
             res.status(500).send({message:"Internal Server Error"})
         }
 
+         await SendMailService.send(emails,type,type)
+         return res.json(type)
     }
 
 }

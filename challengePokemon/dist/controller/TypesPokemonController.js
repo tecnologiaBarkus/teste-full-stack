@@ -35,41 +35,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypesPokemonController = void 0;
 var TypesPokemonRepository_1 = require("../repository/TypesPokemonRepository");
 var PokemonRepository_1 = require("../repository/PokemonRepository");
+var SendMailService_1 = __importDefault(require("../services/SendMailService"));
 var TypesPokemonController = /** @class */ (function () {
     function TypesPokemonController() {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var type, apiType, pokemons, randomPokemons, items, item, apiPokemons, pokemon, error_1, error_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, type, emails, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        type = req.body.type;
-                        _a.label = 1;
+                        _a = req.body, type = _a.type, emails = _a.emails;
+                        randomPokemons = [];
+                        _b.label = 1;
                     case 1:
-                        _a.trys.push([1, 9, , 10]);
+                        _b.trys.push([1, 9, , 10]);
                         return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(type)];
                     case 2:
-                        apiType = _a.sent();
+                        apiType = _b.sent();
                         pokemons = {
                             pokemon: apiType.pokemon
                         };
-                        randomPokemons = [];
                         items = pokemons.pokemon;
-                        _a.label = 3;
+                        _b.label = 3;
                     case 3:
                         if (!(randomPokemons.length <= 4)) return [3 /*break*/, 8];
                         item = items[Math.floor(Math.random() * items.length)];
-                        _a.label = 4;
+                        _b.label = 4;
                     case 4:
-                        _a.trys.push([4, 6, , 7]);
+                        _b.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(item.pokemon.name)];
                     case 5:
-                        apiPokemons = _a.sent();
+                        apiPokemons = _b.sent();
                         pokemon = {
                             id: apiPokemons.id,
                             types: apiPokemons.types,
@@ -82,16 +86,19 @@ var TypesPokemonController = /** @class */ (function () {
                         randomPokemons.push(pokemon);
                         return [3 /*break*/, 7];
                     case 6:
-                        error_1 = _a.sent();
+                        error_1 = _b.sent();
                         res.status(500).send({ message: "Internal Server Error" });
                         return [3 /*break*/, 7];
                     case 7: return [3 /*break*/, 3];
-                    case 8: return [2 /*return*/, res.json(randomPokemons)];
+                    case 8: return [3 /*break*/, 10];
                     case 9:
-                        error_2 = _a.sent();
+                        error_2 = _b.sent();
                         res.status(500).send({ message: "Internal Server Error" });
                         return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                    case 10: return [4 /*yield*/, SendMailService_1.default.send(emails, type, type)];
+                    case 11:
+                        _b.sent();
+                        return [2 /*return*/, res.json(type)];
                 }
             });
         });
