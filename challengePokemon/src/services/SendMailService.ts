@@ -1,5 +1,6 @@
 import nodemailer, { Transporter }from 'nodemailer'
 import handlebars from "handlebars"
+
 import fs from "fs"
 
 class SendMailService{
@@ -22,15 +23,15 @@ class SendMailService{
         }) 
     }
 
-    async send(to:string,subject:string,variables:object){
-        //const templateFileContest = fs.readFileSync(path).toString("utf-8")
-        //const mailTemplateParse = handlebars.compile(templateFileContest)
-        //const html = mailTemplateParse(variables)
+    async send(to:string,subject:string,variables:object,path:string){
+        const templateFileContest = fs.readFileSync(path).toString("utf-8")
+        const mailTemplateParse = handlebars.compile(templateFileContest)
+        const html = mailTemplateParse(variables)
 
         const message =  await this.client.sendMail({
             to,
             subject,
-            html:variables,
+            html,
             from:"NPS<noreplay@nps.com.br>"
         })
         

@@ -40,6 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var nodemailer_1 = __importDefault(require("nodemailer"));
+var handlebars_1 = __importDefault(require("handlebars"));
+var fs_1 = __importDefault(require("fs"));
 var SendMailService = /** @class */ (function () {
     function SendMailService() {
         var _this = this;
@@ -56,17 +58,21 @@ var SendMailService = /** @class */ (function () {
             _this.client = transporter;
         });
     }
-    SendMailService.prototype.send = function (to, subject, variables) {
+    SendMailService.prototype.send = function (to, subject, variables, path) {
         return __awaiter(this, void 0, void 0, function () {
-            var message;
+            var templateFileContest, mailTemplateParse, html, message;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.sendMail({
-                            to: to,
-                            subject: subject,
-                            html: variables,
-                            from: "NPS<noreplay@nps.com.br>"
-                        })];
+                    case 0:
+                        templateFileContest = fs_1.default.readFileSync(path).toString("utf-8");
+                        mailTemplateParse = handlebars_1.default.compile(templateFileContest);
+                        html = mailTemplateParse(variables);
+                        return [4 /*yield*/, this.client.sendMail({
+                                to: to,
+                                subject: subject,
+                                html: html,
+                                from: "NPS<noreplay@nps.com.br>"
+                            })];
                     case 1:
                         message = _a.sent();
                         console.log('Message sent: %s', message.messageId);

@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypesPokemonController = void 0;
+var path_1 = require("path");
 var TypesPokemonRepository_1 = require("../repository/TypesPokemonRepository");
 var PokemonRepository_1 = require("../repository/PokemonRepository");
 var SendMailService_1 = __importDefault(require("../services/SendMailService"));
@@ -48,7 +49,7 @@ var TypesPokemonController = /** @class */ (function () {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, type, emails, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2;
+            var _a, type, emails, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2, path, pokemonsInfo;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -95,10 +96,20 @@ var TypesPokemonController = /** @class */ (function () {
                         error_2 = _b.sent();
                         res.status(500).send({ message: "Internal Server Error" });
                         return [3 /*break*/, 10];
-                    case 10: return [4 /*yield*/, SendMailService_1.default.send(emails, type, type)];
+                    case 10:
+                        path = path_1.resolve(__dirname, "..", "..", "src", "views", "emails", "layout.hbs");
+                        pokemonsInfo = {
+                            type: type,
+                            photo: randomPokemons[0].sprites.front_default,
+                            name: randomPokemons[0].name,
+                            weight: randomPokemons[0].weight,
+                            height: randomPokemons[0].height,
+                            base_experience: randomPokemons[0].base_experience
+                        };
+                        return [4 /*yield*/, SendMailService_1.default.send(emails, type, pokemonsInfo, path)];
                     case 11:
                         _b.sent();
-                        return [2 /*return*/, res.json(type)];
+                        return [2 /*return*/, res.json(pokemonsInfo)];
                 }
             });
         });

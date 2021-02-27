@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import {resolve} from 'path'
 import { TypesPokemon } from '../model/TypesPokemon'
 import { TypesPokemonRepository } from '../repository/TypesPokemonRepository'
 import { PokemonRepository } from '../repository/PokemonRepository'
@@ -46,8 +47,18 @@ class TypesPokemonController{
             res.status(500).send({message:"Internal Server Error"})
         }
 
-         await SendMailService.send(emails,type,type)
-         return res.json(type)
+        const path = resolve(__dirname,"..","..","src","views","emails","layout.hbs")
+        const pokemonsInfo={
+            type:type,
+            photo:randomPokemons[0].sprites.front_default,
+            name: randomPokemons[0].name,
+            weight:randomPokemons[0].weight,
+            height:randomPokemons[0].height,
+            base_experience:randomPokemons[0].base_experience
+        }
+
+         await SendMailService.send(emails,type,pokemonsInfo,path)
+         return res.json(pokemonsInfo)
     }
 
 }
