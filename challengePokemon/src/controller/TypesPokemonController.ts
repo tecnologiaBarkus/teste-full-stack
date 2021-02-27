@@ -5,7 +5,6 @@ import { PokemonRepository } from '../repository/PokemonRepository'
 import { Pokemon } from '../model/Pokemon'
 
 
-
 class TypesPokemonController{
 
     async search (req:Request,res:Response){
@@ -13,31 +12,37 @@ class TypesPokemonController{
 
         try {            
             const apiType:TypesPokemon = await TypesPokemonRepository.find(type)
-            const pokemons:TypesPokemon={
+            const pokemons:TypesPokemon = {
                 pokemon:apiType.pokemon
             }
 
-            const pokemonsSorteados=[]
+            const randomPokemons=[]
             const items = pokemons.pokemon
 
-            while(pokemonsSorteados.length<=4){
-                const item = items[Math.floor(Math.random() * items.length)]
-                const api2:Pokemon = await PokemonRepository.find(item.pokemon.name)
-                const pokemon : Pokemon = {
-                id: api2.id,
-                types: api2.types,
-                sprites:api2.sprites,
-                name:api2.name,
-                weight:api2.weight,
-                height:api2.height,
-                base_experience:api2.base_experience
-                }
-                pokemonsSorteados.push(pokemon)
-            }          
+            while(randomPokemons.length<=4){
+                const item = items[ Math.floor ( Math.random() * items.length ) ]
+                try {
+                    const apiPokemons:Pokemon = await PokemonRepository.find( item.pokemon.name )
+                    const pokemon : Pokemon = {
+                        id: apiPokemons.id,
+                        types: apiPokemons.types,
+                        sprites:apiPokemons.sprites,
+                        name:apiPokemons.name,
+                        weight:apiPokemons.weight,
+                        height:apiPokemons.height,
+                        base_experience:apiPokemons.base_experience
+                    }
 
-            return res.json(pokemonsSorteados)
+                    randomPokemons.push(pokemon)
+                } catch (error) {
+                    res.status(500).send({message:"Internal Server Error"})
+                }
+            }        
+
+            return res.json(randomPokemons)
+
         } catch (error) {
-            
+            res.status(500).send({message:"Internal Server Error"})
         }
 
     }

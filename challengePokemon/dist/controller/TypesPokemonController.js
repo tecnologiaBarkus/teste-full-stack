@@ -44,45 +44,54 @@ var TypesPokemonController = /** @class */ (function () {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var type, apiType, pokemons, pokemonsSorteados, items, item, api2, pokemon, error_1;
+            var type, apiType, pokemons, randomPokemons, items, item, apiPokemons, pokemon, error_1, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         type = req.body.type;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 6, , 7]);
+                        _a.trys.push([1, 9, , 10]);
                         return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(type)];
                     case 2:
                         apiType = _a.sent();
                         pokemons = {
                             pokemon: apiType.pokemon
                         };
-                        pokemonsSorteados = [];
+                        randomPokemons = [];
                         items = pokemons.pokemon;
                         _a.label = 3;
                     case 3:
-                        if (!(pokemonsSorteados.length <= 4)) return [3 /*break*/, 5];
+                        if (!(randomPokemons.length <= 4)) return [3 /*break*/, 8];
                         item = items[Math.floor(Math.random() * items.length)];
-                        return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(item.pokemon.name)];
+                        _a.label = 4;
                     case 4:
-                        api2 = _a.sent();
+                        _a.trys.push([4, 6, , 7]);
+                        return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(item.pokemon.name)];
+                    case 5:
+                        apiPokemons = _a.sent();
                         pokemon = {
-                            id: api2.id,
-                            types: api2.types,
-                            sprites: api2.sprites,
-                            name: api2.name,
-                            weight: api2.weight,
-                            height: api2.height,
-                            base_experience: api2.base_experience
+                            id: apiPokemons.id,
+                            types: apiPokemons.types,
+                            sprites: apiPokemons.sprites,
+                            name: apiPokemons.name,
+                            weight: apiPokemons.weight,
+                            height: apiPokemons.height,
+                            base_experience: apiPokemons.base_experience
                         };
-                        pokemonsSorteados.push(pokemon);
-                        return [3 /*break*/, 3];
-                    case 5: return [2 /*return*/, res.json(pokemonsSorteados)];
+                        randomPokemons.push(pokemon);
+                        return [3 /*break*/, 7];
                     case 6:
                         error_1 = _a.sent();
+                        res.status(500).send({ message: "Internal Server Error" });
                         return [3 /*break*/, 7];
-                    case 7: return [2 /*return*/];
+                    case 7: return [3 /*break*/, 3];
+                    case 8: return [2 /*return*/, res.json(randomPokemons)];
+                    case 9:
+                        error_2 = _a.sent();
+                        res.status(500).send({ message: "Internal Server Error" });
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });
