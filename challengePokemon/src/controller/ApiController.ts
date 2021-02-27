@@ -5,10 +5,10 @@ import { Pokemon } from '../model/Pokemon'
 
 class ApiController{
     async start(req:Request,res:Response) {
-        const{ id }=req.params
+        const{ name }=req.params
 
         try {            
-            const api:Pokemon = await PokemonRepository.find(id)
+            const api:Pokemon = await PokemonRepository.find(name)
             const pokemon : Pokemon = {
                 id: api.id,
                 types: api.types,

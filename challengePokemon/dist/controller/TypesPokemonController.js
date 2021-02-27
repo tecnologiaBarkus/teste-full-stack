@@ -36,34 +36,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiController = void 0;
-var PokemonRepository_1 = require("../repository/PokemonRepository");
-var ApiController = /** @class */ (function () {
-    function ApiController() {
+exports.TypesPokemonController = void 0;
+var TypesPokemonRepository_1 = require("../repository/TypesPokemonRepository");
+var TypesPokemonController = /** @class */ (function () {
+    function TypesPokemonController() {
     }
-    ApiController.prototype.start = function (req, res) {
+    TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var name, api, pokemon, error_1;
+            var type, api, pokemons, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        name = req.params.name;
+                        type = req.body.type;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(name)];
+                        return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(type)];
                     case 2:
                         api = _a.sent();
-                        pokemon = {
+                        pokemons = {
                             id: api.id,
-                            types: api.types,
-                            sprites: api.sprites,
-                            name: api.name,
-                            weight: api.weight,
-                            height: api.height,
-                            base_experience: api.base_experience
+                            pokemon: api.pokemon
                         };
-                        return [2 /*return*/, res.json(pokemon)];
+                        return [2 /*return*/, res.json(pokemons)];
                     case 3:
                         error_1 = _a.sent();
                         return [3 /*break*/, 4];
@@ -72,6 +67,6 @@ var ApiController = /** @class */ (function () {
             });
         });
     };
-    return ApiController;
+    return TypesPokemonController;
 }());
-exports.ApiController = ApiController;
+exports.TypesPokemonController = TypesPokemonController;

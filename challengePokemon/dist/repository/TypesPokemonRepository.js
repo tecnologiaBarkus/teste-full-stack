@@ -35,43 +35,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiController = void 0;
-var PokemonRepository_1 = require("../repository/PokemonRepository");
-var ApiController = /** @class */ (function () {
-    function ApiController() {
+exports.TypesPokemonRepository = void 0;
+var axios_1 = __importDefault(require("axios"));
+var TypesPokemonRepository = /** @class */ (function () {
+    function TypesPokemonRepository() {
     }
-    ApiController.prototype.start = function (req, res) {
+    TypesPokemonRepository.find = function (type) {
         return __awaiter(this, void 0, void 0, function () {
-            var name, api, pokemon, error_1;
+            var data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        name = req.params.name;
-                        _a.label = 1;
+                    case 0: return [4 /*yield*/, axios_1.default.get("https://pokeapi.co/api/v2/type/" + type)];
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(name)];
-                    case 2:
-                        api = _a.sent();
-                        pokemon = {
-                            id: api.id,
-                            types: api.types,
-                            sprites: api.sprites,
-                            name: api.name,
-                            weight: api.weight,
-                            height: api.height,
-                            base_experience: api.base_experience
-                        };
-                        return [2 /*return*/, res.json(pokemon)];
-                    case 3:
-                        error_1 = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        data = (_a.sent()).data;
+                        return [2 /*return*/, data];
                 }
             });
         });
     };
-    return ApiController;
+    return TypesPokemonRepository;
 }());
-exports.ApiController = ApiController;
+exports.TypesPokemonRepository = TypesPokemonRepository;

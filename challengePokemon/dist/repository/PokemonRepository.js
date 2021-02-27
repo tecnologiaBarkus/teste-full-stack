@@ -44,12 +44,12 @@ var axios_1 = __importDefault(require("axios"));
 var PokemonRepository = /** @class */ (function () {
     function PokemonRepository() {
     }
-    PokemonRepository.find = function (id) {
+    PokemonRepository.find = function (name) {
         return __awaiter(this, void 0, void 0, function () {
             var data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios_1.default.get("https://pokeapi.co/api/v2/pokemon/" + id)];
+                    case 0: return [4 /*yield*/, axios_1.default.get("https://pokeapi.co/api/v2/pokemon/" + name)];
                     case 1:
                         data = (_a.sent()).data;
                         return [2 /*return*/, data];
