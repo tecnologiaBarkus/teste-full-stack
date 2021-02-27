@@ -1,0 +1,42 @@
+service: aws-python-rest-api-barkus
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: 'us-east-2'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+        - ses:SendRawEmail
+      Resource: "*"
+
+functions:
+  send_email:
+    handler: handler.send_email
+    events:
+      - http:
+          path: /pokemons
+          method: post
+          integration: lambda
+          cors: true
+          response:
+            template: $input.path('$')
+            statusCodes:
+              200:
+                pattern: ''
+                template: 'OK'
+              400:
+                pattern: '^(Invalid|Missing).*'
+                template: $input.json("$.errorMessage")
+              404:
+                pattern: '^Resource.*'
+                template: $input.json("$.errorMessage")
+              500:
+                pattern: '^Internal.*'
+                template: $input.json("$.errorMessage")
+            headers:
+              Access-Control-Allow_Origin: "'*'"
+              Content-Type: "'application/json'"
