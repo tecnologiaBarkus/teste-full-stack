@@ -28,7 +28,7 @@ class TypesPokemonController{
                     const pokemon : Pokemon = {
                         id: apiPokemons.id,
                         types: apiPokemons.types,
-                        sprites:apiPokemons.sprites,
+                        photo:apiPokemons.sprites.front_default,
                         name:apiPokemons.name,
                         weight:apiPokemons.weight,
                         height:apiPokemons.height,
@@ -48,17 +48,10 @@ class TypesPokemonController{
         }
 
         const path = resolve(__dirname,"..","..","src","views","emails","layout.hbs")
-        const pokemonsInfo={
-            type:type,
-            photo:randomPokemons[0].sprites.front_default,
-            name: randomPokemons[0].name,
-            weight:randomPokemons[0].weight,
-            height:randomPokemons[0].height,
-            base_experience:randomPokemons[0].base_experience
-        }
+    
 
-         await SendMailService.send(emails,type,pokemonsInfo,path)
-         return res.json(pokemonsInfo)
+         await SendMailService.send(emails,type,{type,randomPokemons},path)
+         return res.json(randomPokemons)
     }
 
 }

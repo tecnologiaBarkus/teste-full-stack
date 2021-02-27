@@ -49,7 +49,7 @@ var TypesPokemonController = /** @class */ (function () {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, type, emails, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2, path, pokemonsInfo;
+            var _a, type, emails, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2, path;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -78,7 +78,7 @@ var TypesPokemonController = /** @class */ (function () {
                         pokemon = {
                             id: apiPokemons.id,
                             types: apiPokemons.types,
-                            sprites: apiPokemons.sprites,
+                            photo: apiPokemons.sprites.front_default,
                             name: apiPokemons.name,
                             weight: apiPokemons.weight,
                             height: apiPokemons.height,
@@ -98,18 +98,10 @@ var TypesPokemonController = /** @class */ (function () {
                         return [3 /*break*/, 10];
                     case 10:
                         path = path_1.resolve(__dirname, "..", "..", "src", "views", "emails", "layout.hbs");
-                        pokemonsInfo = {
-                            type: type,
-                            photo: randomPokemons[0].sprites.front_default,
-                            name: randomPokemons[0].name,
-                            weight: randomPokemons[0].weight,
-                            height: randomPokemons[0].height,
-                            base_experience: randomPokemons[0].base_experience
-                        };
-                        return [4 /*yield*/, SendMailService_1.default.send(emails, type, pokemonsInfo, path)];
+                        return [4 /*yield*/, SendMailService_1.default.send(emails, type, { type: type, randomPokemons: randomPokemons }, path)];
                     case 11:
                         _b.sent();
-                        return [2 /*return*/, res.json(pokemonsInfo)];
+                        return [2 /*return*/, res.json(randomPokemons)];
                 }
             });
         });

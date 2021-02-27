@@ -3,13 +3,15 @@
 
     <p>Aqui estão as informações de 5 pokémons aleatórios do tipo {{type}} que podem ser interessantes para você capturar durante a sua jornada.</p>
     
-    <img src={{photo}} alt="pokemon">
-    <p>Nome do Pokémon: {{ name }}</p>
-    <p>Peso: {{ weight }}</p>
-    <p>Altura: {{ height }}</p>
-    <p>Experiência base: {{ base_experience }}</p>
-
-    
+    {{#each randomPokemons}}
+        <img src={{this.photo}} alt="pokemon">
+        <p>Nome do Pokémon: {{ this.name }}</p>
+        <p>Peso: {{ this.weight }}</p>
+        <p>Altura: {{ this.height }}</p>
+        <p>Experiência base: {{ this.base_experience }}</p>
+        <hr>
+    {{/each}}
+   
     <p>Gotta Catch 'Em All!</p>
     <p>See ya!</p>
 
