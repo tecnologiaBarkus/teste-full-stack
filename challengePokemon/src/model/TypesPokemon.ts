@@ -1,4 +1,3 @@
 export interface TypesPokemon{
-    id:number,
-    pokemon:[{pokemon:{ name:string}}]
+    pokemon:[{pokemon:{ name:string }}]
 }

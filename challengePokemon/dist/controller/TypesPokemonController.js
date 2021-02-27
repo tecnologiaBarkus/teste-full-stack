@@ -38,31 +38,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypesPokemonController = void 0;
 var TypesPokemonRepository_1 = require("../repository/TypesPokemonRepository");
+var PokemonRepository_1 = require("../repository/PokemonRepository");
 var TypesPokemonController = /** @class */ (function () {
     function TypesPokemonController() {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var type, api, pokemons, error_1;
+            var type, apiType, pokemons, pokemonsSorteados, items, item, api2, pokemon, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         type = req.body.type;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 6, , 7]);
                         return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(type)];
                     case 2:
-                        api = _a.sent();
+                        apiType = _a.sent();
                         pokemons = {
-                            id: api.id,
-                            pokemon: api.pokemon
+                            pokemon: apiType.pokemon
                         };
-                        return [2 /*return*/, res.json(pokemons)];
+                        pokemonsSorteados = [];
+                        items = pokemons.pokemon;
+                        _a.label = 3;
                     case 3:
+                        if (!(pokemonsSorteados.length <= 4)) return [3 /*break*/, 5];
+                        item = items[Math.floor(Math.random() * items.length)];
+                        return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(item.pokemon.name)];
+                    case 4:
+                        api2 = _a.sent();
+                        pokemon = {
+                            id: api2.id,
+                            types: api2.types,
+                            sprites: api2.sprites,
+                            name: api2.name,
+                            weight: api2.weight,
+                            height: api2.height,
+                            base_experience: api2.base_experience
+                        };
+                        pokemonsSorteados.push(pokemon);
+                        return [3 /*break*/, 3];
+                    case 5: return [2 /*return*/, res.json(pokemonsSorteados)];
+                    case 6:
                         error_1 = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
