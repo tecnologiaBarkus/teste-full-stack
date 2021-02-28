@@ -8,6 +8,7 @@ var express_1 = __importDefault(require("express"));
 var routes_1 = require("./routes");
 var mongoose_1 = __importDefault(require("mongoose"));
 var dotenv_1 = require("dotenv");
+var mailJob_1 = require("./job/mailJob");
 dotenv_1.config();
 var app = express_1.default();
 exports.app = app;
@@ -21,6 +22,7 @@ mongoose_1.default.connect("mongodb+srv://" + process.env.MONGO_USER + ":" + pro
 }, function (err) {
     if (!err) {
         console.log('connected to database!');
+        mailJob_1.MailJob.checkMailsToSend();
     }
     else {
         console.log('mongo error', err);
