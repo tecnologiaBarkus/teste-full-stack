@@ -23,7 +23,7 @@ class SendMailService{
         }) 
     }
 
-    async send(to:string,subject:string,variables:object,path:string){
+    async send(to:string[],subject:string,variables:object,path:string){
         const templateFileContest = fs.readFileSync(path).toString("utf-8")
         const mailTemplateParse = handlebars.compile(templateFileContest)
         const html = mailTemplateParse(variables)
