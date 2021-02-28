@@ -1,5 +1,6 @@
 import nodemailer, { Transporter }from 'nodemailer'
 import handlebars from "handlebars"
+import { config } from "dotenv";
 
 import fs from "fs"
 
@@ -7,20 +8,41 @@ class SendMailService{
     private client:Transporter
 
     constructor(){
-        nodemailer.createTestAccount().then(account =>{
+        config()
 
+        if(process.env.NODE_ENV === 'production') {
+
+            const host: string = process.env.SMTP_HOST ?? ''
+            const port: number = parseInt(process.env.SMTP_PORT)  ?? 587
+            const user: string = process.env.SMTP_USER ?? ''
+            const password: string = process.env.SMTP_PASS ?? ''
             const transporter = nodemailer.createTransport({
-                host: account.smtp.host,
-                port: account.smtp.port,
-                secure: account.smtp.secure,
+                host: host,
+                port: port,
+                secure: false, 
                 auth: {
-                    user: account.user,
-                    pass: account.pass
+                    user: user,
+                    pass: password
                 }
-            });
+            })
 
-            this.client = transporter
-        }) 
+            this.client= transporter
+        } else {
+            nodemailer.createTestAccount().then(account =>{
+
+                const transporter = nodemailer.createTransport({
+                    host: account.smtp.host,
+                    port: account.smtp.port,
+                    secure: account.smtp.secure,
+                    auth: {
+                        user: account.user,
+                        pass: account.pass
+                    }
+                });
+    
+                this.client = transporter
+            }) 
+        }
     }
 
     async send(to:string[],subject:string,variables:object,path:string){
@@ -30,9 +52,9 @@ class SendMailService{
 
         const message =  await this.client.sendMail({
             to,
-            subject,
+            subject: `Seus pokemons do tipo ${subject}`,
             html,
-            from:"NPS<noreplay@nps.com.br>"
+            from:"NPS<noreplay@pokemons.com.br>"
         })
         
         console.log('Message sent: %s', message.messageId);

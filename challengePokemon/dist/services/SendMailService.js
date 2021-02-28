@@ -41,22 +41,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var nodemailer_1 = __importDefault(require("nodemailer"));
 var handlebars_1 = __importDefault(require("handlebars"));
+var dotenv_1 = require("dotenv");
 var fs_1 = __importDefault(require("fs"));
 var SendMailService = /** @class */ (function () {
     function SendMailService() {
         var _this = this;
-        nodemailer_1.default.createTestAccount().then(function (account) {
+        var _a, _b, _c, _d;
+        dotenv_1.config();
+        if (process.env.NODE_ENV === 'production') {
+            var host = (_a = process.env.SMTP_HOST) !== null && _a !== void 0 ? _a : '';
+            var port = (_b = parseInt(process.env.SMTP_PORT)) !== null && _b !== void 0 ? _b : 587;
+            var user = (_c = process.env.SMTP_USER) !== null && _c !== void 0 ? _c : '';
+            var password = (_d = process.env.SMTP_PASS) !== null && _d !== void 0 ? _d : '';
             var transporter = nodemailer_1.default.createTransport({
-                host: account.smtp.host,
-                port: account.smtp.port,
-                secure: account.smtp.secure,
+                host: host,
+                port: port,
+                secure: false,
                 auth: {
-                    user: account.user,
-                    pass: account.pass
+                    user: user,
+                    pass: password
                 }
             });
-            _this.client = transporter;
-        });
+            this.client = transporter;
+        }
+        else {
+            nodemailer_1.default.createTestAccount().then(function (account) {
+                var transporter = nodemailer_1.default.createTransport({
+                    host: account.smtp.host,
+                    port: account.smtp.port,
+                    secure: account.smtp.secure,
+                    auth: {
+                        user: account.user,
+                        pass: account.pass
+                    }
+                });
+                _this.client = transporter;
+            });
+        }
     }
     SendMailService.prototype.send = function (to, subject, variables, path) {
         return __awaiter(this, void 0, void 0, function () {
@@ -69,9 +90,9 @@ var SendMailService = /** @class */ (function () {
                         html = mailTemplateParse(variables);
                         return [4 /*yield*/, this.client.sendMail({
                                 to: to,
-                                subject: subject,
+                                subject: "Seus pokemons do tipo " + subject,
                                 html: html,
-                                from: "NPS<noreplay@nps.com.br>"
+                                from: "NPS<noreplay@pokemons.com.br>"
                             })];
                     case 1:
                         message = _a.sent();
