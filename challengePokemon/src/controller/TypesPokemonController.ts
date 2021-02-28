@@ -23,11 +23,12 @@ class TypesPokemonController{
                     const params: Schedule = {
                         type, 
                         emails,
-                        date
+                        date,
+                        send: false
                     }
                     const newSchedule =await ScheduleRepository.create(params)
 
-                    return res.status(201).send({message: 'Scheduled email sending', data: newSchedule })
+                    return res.status(201).send({message: 'Scheduled email sending...', data: newSchedule })
                 } catch (error) {
                     res.status(500).send({message:"Internal Server Error"})
                 }

@@ -65,12 +65,13 @@ var TypesPokemonController = /** @class */ (function () {
                         params = {
                             type: type,
                             emails: emails,
-                            date: date
+                            date: date,
+                            send: false
                         };
                         return [4 /*yield*/, ScheduleRepository_1.ScheduleRepository.create(params)];
                     case 2:
                         newSchedule = _b.sent();
-                        return [2 /*return*/, res.status(201).send({ message: 'Scheduled email sending', data: newSchedule })];
+                        return [2 /*return*/, res.status(201).send({ message: 'Scheduled email sending...', data: newSchedule })];
                     case 3:
                         error_1 = _b.sent();
                         res.status(500).send({ message: "Internal Server Error" });

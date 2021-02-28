@@ -59,6 +59,19 @@ var ScheduleRepository = /** @class */ (function () {
             });
         });
     };
+    ScheduleRepository.filter = function (query) {
+        return __awaiter(this, void 0, void 0, function () {
+            var documents;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, schedule_1.default.find(query)];
+                    case 1:
+                        documents = _a.sent();
+                        return [2 /*return*/, documents];
+                }
+            });
+        });
+    };
     return ScheduleRepository;
 }());
 exports.ScheduleRepository = ScheduleRepository;

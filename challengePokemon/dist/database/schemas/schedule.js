@@ -24,6 +24,7 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
     type: String,
     emails: Array(),
-    date: Date
+    date: Date,
+    send: Boolean
 });
 exports.default = mongoose.model('schedule', schema);
