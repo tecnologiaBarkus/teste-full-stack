@@ -54,24 +54,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailJob = void 0;
 var schedule = __importStar(require("node-schedule"));
-var PokemonRepository_1 = require("../repository/PokemonRepository");
 var ScheduleRepository_1 = require("../repository/ScheduleRepository");
-var TypesPokemonRepository_1 = require("../repository/TypesPokemonRepository");
-var path_1 = require("path");
-var SendMailService_1 = __importDefault(require("../services/SendMailService"));
+var sendMailHelper_1 = require("../helpers/sendMailHelper");
 var MailJob = /** @class */ (function () {
     function MailJob() {
     }
     MailJob.checkMailsToSend = function () {
         var _this = this;
         schedule.scheduleJob('30 * * * * *', function () { return __awaiter(_this, void 0, void 0, function () {
-            var documents, _i, documents_1, document_1, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2, path, params;
+            var documents, _i, documents_1, document_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, ScheduleRepository_1.ScheduleRepository.filter({
@@ -82,69 +76,13 @@ var MailJob = /** @class */ (function () {
                         })];
                     case 1:
                         documents = _a.sent();
-                        _i = 0, documents_1 = documents;
-                        _a.label = 2;
-                    case 2:
-                        if (!(_i < documents_1.length)) return [3 /*break*/, 15];
-                        document_1 = documents_1[_i];
-                        randomPokemons = [];
-                        _a.label = 3;
-                    case 3:
-                        _a.trys.push([3, 11, , 12]);
-                        return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(document_1.type)];
-                    case 4:
-                        apiType = _a.sent();
-                        pokemons = {
-                            pokemon: apiType.pokemon
-                        };
-                        items = pokemons.pokemon;
-                        _a.label = 5;
-                    case 5:
-                        if (!(randomPokemons.length <= 4)) return [3 /*break*/, 10];
-                        item = items[Math.floor(Math.random() * items.length)];
-                        _a.label = 6;
-                    case 6:
-                        _a.trys.push([6, 8, , 9]);
-                        return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(item.pokemon.name)];
-                    case 7:
-                        apiPokemons = _a.sent();
-                        pokemon = {
-                            id: apiPokemons.id,
-                            types: apiPokemons.types,
-                            photo: apiPokemons.sprites.front_default,
-                            name: apiPokemons.name,
-                            weight: apiPokemons.weight,
-                            height: apiPokemons.height,
-                            base_experience: apiPokemons.base_experience
-                        };
-                        randomPokemons.push(pokemon);
-                        return [3 /*break*/, 9];
-                    case 8:
-                        error_1 = _a.sent();
-                        console.log('cron error', error_1);
-                        return [3 /*break*/, 9];
-                    case 9: return [3 /*break*/, 5];
-                    case 10: return [3 /*break*/, 12];
-                    case 11:
-                        error_2 = _a.sent();
-                        console.log('cron error', error_2);
-                        return [3 /*break*/, 12];
-                    case 12:
-                        path = path_1.resolve(__dirname, "..", "..", "src", "views", "emails", "layout.hbs");
-                        params = {
-                            type: document_1.type,
-                            randomPokemons: randomPokemons
-                        };
-                        return [4 /*yield*/, SendMailService_1.default.send(document_1.emails, document_1.type, params, path)];
-                    case 13:
-                        _a.sent();
-                        document_1.send = true;
-                        document_1.save();
-                        _a.label = 14;
-                    case 14:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 15: return [2 /*return*/];
+                        for (_i = 0, documents_1 = documents; _i < documents_1.length; _i++) {
+                            document_1 = documents_1[_i];
+                            sendMailHelper_1.sendMailHelper(document_1.type, document_1.emails);
+                            document_1.send = true;
+                            document_1.save();
+                        }
+                        return [2 /*return*/];
                 }
             });
         }); });
