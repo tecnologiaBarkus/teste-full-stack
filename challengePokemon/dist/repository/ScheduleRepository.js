@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ScheduleRepository = void 0;
 var schedule_1 = __importDefault(require("../database/schemas/schedule"));
 var ScheduleRepository = /** @class */ (function () {
     function ScheduleRepository() {
@@ -60,3 +61,4 @@ var ScheduleRepository = /** @class */ (function () {
     };
     return ScheduleRepository;
 }());
+exports.ScheduleRepository = ScheduleRepository;

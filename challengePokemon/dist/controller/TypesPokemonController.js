@@ -44,36 +44,60 @@ var path_1 = require("path");
 var TypesPokemonRepository_1 = require("../repository/TypesPokemonRepository");
 var PokemonRepository_1 = require("../repository/PokemonRepository");
 var SendMailService_1 = __importDefault(require("../services/SendMailService"));
+var ScheduleRepository_1 = require("../repository/ScheduleRepository");
 var TypesPokemonController = /** @class */ (function () {
     function TypesPokemonController() {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, type, emails, randomPokemons, apiType, pokemons, items, item, apiPokemons, pokemon, error_1, error_2, path;
+            var _a, type, emails, date, randomPokemons, scheduleDate, params, newSchedule, error_1, apiType, pokemons, items, item, apiPokemons, pokemon, error_2, error_3, path;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = req.body, type = _a.type, emails = _a.emails;
+                        _a = req.body, type = _a.type, emails = _a.emails, date = _a.date;
                         randomPokemons = [];
+                        if (!!isNaN(new Date(date).getTime())) return [3 /*break*/, 7];
+                        scheduleDate = new Date(date);
+                        if (!(scheduleDate >= new Date())) return [3 /*break*/, 5];
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 9, , 10]);
-                        return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(type)];
+                        _b.trys.push([1, 3, , 4]);
+                        params = {
+                            type: type,
+                            emails: emails,
+                            date: date
+                        };
+                        return [4 /*yield*/, ScheduleRepository_1.ScheduleRepository.create(params)];
                     case 2:
+                        newSchedule = _b.sent();
+                        return [2 /*return*/, res.status(201).send({ message: 'Scheduled email sending', data: newSchedule })];
+                    case 3:
+                        error_1 = _b.sent();
+                        res.status(500).send({ message: "Internal Server Error" });
+                        return [3 /*break*/, 4];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        res.status(400).send({ message: "Date is not a valid " });
+                        _b.label = 6;
+                    case 6: return [3 /*break*/, 18];
+                    case 7:
+                        _b.trys.push([7, 15, , 16]);
+                        return [4 /*yield*/, TypesPokemonRepository_1.TypesPokemonRepository.find(type)];
+                    case 8:
                         apiType = _b.sent();
                         pokemons = {
                             pokemon: apiType.pokemon
                         };
                         items = pokemons.pokemon;
-                        _b.label = 3;
-                    case 3:
-                        if (!(randomPokemons.length <= 4)) return [3 /*break*/, 8];
+                        _b.label = 9;
+                    case 9:
+                        if (!(randomPokemons.length <= 4)) return [3 /*break*/, 14];
                         item = items[Math.floor(Math.random() * items.length)];
-                        _b.label = 4;
-                    case 4:
-                        _b.trys.push([4, 6, , 7]);
+                        _b.label = 10;
+                    case 10:
+                        _b.trys.push([10, 12, , 13]);
                         return [4 /*yield*/, PokemonRepository_1.PokemonRepository.find(item.pokemon.name)];
-                    case 5:
+                    case 11:
                         apiPokemons = _b.sent();
                         pokemon = {
                             id: apiPokemons.id,
@@ -85,23 +109,24 @@ var TypesPokemonController = /** @class */ (function () {
                             base_experience: apiPokemons.base_experience
                         };
                         randomPokemons.push(pokemon);
-                        return [3 /*break*/, 7];
-                    case 6:
-                        error_1 = _b.sent();
-                        res.status(500).send({ message: "Internal Server Error" });
-                        return [3 /*break*/, 7];
-                    case 7: return [3 /*break*/, 3];
-                    case 8: return [3 /*break*/, 10];
-                    case 9:
+                        return [3 /*break*/, 13];
+                    case 12:
                         error_2 = _b.sent();
                         res.status(500).send({ message: "Internal Server Error" });
-                        return [3 /*break*/, 10];
-                    case 10:
+                        return [3 /*break*/, 13];
+                    case 13: return [3 /*break*/, 9];
+                    case 14: return [3 /*break*/, 16];
+                    case 15:
+                        error_3 = _b.sent();
+                        res.status(500).send({ message: "Internal Server Error" });
+                        return [3 /*break*/, 16];
+                    case 16:
                         path = path_1.resolve(__dirname, "..", "..", "src", "views", "emails", "layout.hbs");
                         return [4 /*yield*/, SendMailService_1.default.send(emails, type, { type: type, randomPokemons: randomPokemons }, path)];
-                    case 11:
+                    case 17:
                         _b.sent();
                         return [2 /*return*/, res.json(randomPokemons)];
+                    case 18: return [2 /*return*/];
                 }
             });
         });

@@ -9,3 +9,5 @@ class ScheduleRepository{
         return newSchedule
     }
 }
+
+export { ScheduleRepository }
