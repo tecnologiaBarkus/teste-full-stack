@@ -157,8 +157,8 @@ curl -X POST \
 
 ## Template do email - Exemplo
 
-![Exemplo 1 Template](/docs/images/ex1.jpeg)
-![Exemplo 2 Template](/docs/images/ex2.jpeg)
+<img src="/docs/images/ex1.jpeg" alt="Exemplo Template 1" width="700"/>
+<img src="/docs/images/ex2.jpeg" alt="Exemplo Template 2" width="700"/>
 
 ## TODO
 
