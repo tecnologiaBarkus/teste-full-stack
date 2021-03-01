@@ -6,4 +6,4 @@ var TypesPokemonController_1 = require("./controller/TypesPokemonController");
 var router = express_1.Router();
 exports.router = router;
 var typesPokemonController = new TypesPokemonController_1.TypesPokemonController();
-router.get("/type", typesPokemonController.search);
+router.get("/", typesPokemonController.search);

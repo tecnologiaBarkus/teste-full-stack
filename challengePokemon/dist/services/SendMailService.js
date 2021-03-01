@@ -90,9 +90,9 @@ var SendMailService = /** @class */ (function () {
                         html = mailTemplateParse(variables);
                         return [4 /*yield*/, this.client.sendMail({
                                 to: to,
-                                subject: "Seus pokemons do tipo " + subject,
+                                subject: "Seus pok\u00E9mons do tipo " + subject,
                                 html: html,
-                                from: "NPS<noreplay@pokemons.com.br>"
+                                from: "Pokédex<noreplay@pokemons.com.br>"
                             })];
                     case 1:
                         message = _a.sent();

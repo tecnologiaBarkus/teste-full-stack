@@ -1,3 +1,6 @@
 import { app } from "./app";
+import { config } from "dotenv";
 
-app.listen(3000,()=>console.log("Server is running"))
+config()
+
+app.listen(process.env.PORT ?? 3000,()=>console.log("Server is running 📡"))

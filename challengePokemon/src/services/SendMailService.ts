@@ -52,9 +52,9 @@ class SendMailService{
 
         const message =  await this.client.sendMail({
             to,
-            subject: `Seus pokemons do tipo ${subject}`,
+            subject: `Seus pokémons do tipo ${subject}`,
             html,
-            from:"NPS<noreplay@pokemons.com.br>"
+            from:"Pokédex<noreplay@pokemons.com.br>"
         })
         
         console.log('Message sent: %s', message.messageId);

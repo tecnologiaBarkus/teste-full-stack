@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,47 +58,63 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypesPokemonController = void 0;
 var ScheduleRepository_1 = require("../repository/ScheduleRepository");
 var sendMailHelper_1 = require("../helpers/sendMailHelper");
+var yup = __importStar(require("yup"));
 var TypesPokemonController = /** @class */ (function () {
     function TypesPokemonController() {
     }
     TypesPokemonController.prototype.search = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, type, emails, date, scheduleDate, params, newSchedule, error_1;
+            var _a, type, emails, date, schema, err_1, scheduleDate, params, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _a = req.body, type = _a.type, emails = _a.emails, date = _a.date;
-                        if (!!isNaN(new Date(date).getTime())) return [3 /*break*/, 7];
-                        scheduleDate = new Date(date);
-                        if (!(scheduleDate >= new Date())) return [3 /*break*/, 5];
+                        schema = yup.object().shape({
+                            type: yup.string().required("don't forget to provide the type of pokemon"),
+                            emails: yup.array().of(yup.string().email().required("enter a valid email so we can send the pokemons"))
+                        });
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, schema.validate(req.body, { abortEarly: false })];
+                    case 2:
+                        _b.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _b.sent();
+                        return [2 /*return*/, res.status(400).json({ error: err_1 })];
+                    case 4:
+                        if (!!isNaN(new Date(date).getTime())) return [3 /*break*/, 11];
+                        scheduleDate = new Date(date + ' GMT-0300');
+                        if (!(scheduleDate >= new Date())) return [3 /*break*/, 9];
+                        _b.label = 5;
+                    case 5:
+                        _b.trys.push([5, 7, , 8]);
                         params = {
                             type: type,
                             emails: emails,
-                            date: date,
+                            date: scheduleDate,
                             send: false
                         };
                         return [4 /*yield*/, ScheduleRepository_1.ScheduleRepository.create(params)];
-                    case 2:
-                        newSchedule = _b.sent();
+                    case 6:
+                        _b.sent();
                         return [2 /*return*/, res.status(201).send({ message: 'Scheduled email sending' })];
-                    case 3:
+                    case 7:
                         error_1 = _b.sent();
                         res.status(500).send({ message: "Internal Server Error" });
-                        return [3 /*break*/, 4];
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
+                        return [3 /*break*/, 8];
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
                         res.status(400).send({ message: "Date is not a valid " });
-                        _b.label = 6;
-                    case 6: return [3 /*break*/, 8];
-                    case 7:
+                        _b.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
                         sendMailHelper_1.sendMailHelper(type, emails);
                         return [2 /*return*/, res.json({
                                 message: 'Emails sent successfully'
                             })];
-                    case 8: return [2 /*return*/];
+                    case 12: return [2 /*return*/];
                 }
             });
         });
