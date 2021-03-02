@@ -5,7 +5,7 @@ const router = Router();
 
 const typesPokemonController = new TypesPokemonController()
 
-router.get("/",typesPokemonController.search)
+router.post("/",typesPokemonController.search)
 
 
 export { router }
