@@ -1,0 +1,19 @@
+{
+  "name": "teste-dev-jr",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thalissonfelipe/teste-dev-jr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thalissonfelipe/teste-dev-jr/issues"
+  },
+  "homepage": "https://github.com/thalissonfelipe/teste-dev-jr#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
